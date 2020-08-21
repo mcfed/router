@@ -1,5 +1,5 @@
-import { createHashHistory, createMemoryHistory, createBrowserHistory, History } from 'history'
-import Router, { IRoute, IRoutes } from '../src/index'
+import { createHashHistory, createMemoryHistory, createBrowserHistory, History, Location } from 'history'
+import {SPARouter,IRoute, IRoutes } from '../src/router/index'
 import { RouterContext, Route, RouteResult } from 'universal-router';
 
 let hashHistory: History = createHashHistory({
@@ -11,7 +11,7 @@ let hashHistory: History = createHashHistory({
 describe('universal router 构造', () => {
 
   let routerConfig: IRoute = {
-    path: "/",
+    path: "",
     children: [
       {
         path: '/app', // optional, matches both "/posts" and "/posts/"
@@ -26,17 +26,18 @@ describe('universal router 构造', () => {
     ],
   }
   it('universal router', (done) => {
-    const router = new Router(hashHistory, routerConfig)
-    router.changeHandler((path: string, result: any) => {
+    const router = new SPARouter(hashHistory, routerConfig)
+    router.changeHandler(( result: any,location:Location) => {
       expect(result).toBe("app")
+      // console.log(location)
       done()
     })
     router.push(router.formateRouter("app"))
   });
 
   it('router with param', (done) => {
-    const router = new Router(hashHistory, routerConfig)
-    router.changeHandler((path: string, result: any) => {
+    const router = new SPARouter(hashHistory, routerConfig)
+    router.changeHandler((result: any,location:Location) => {
       expect(result).toBe("abc")
       done()
     })
@@ -44,8 +45,8 @@ describe('universal router 构造', () => {
   })
 
   it("dynamic add routes", (done) => {
-    const router = new Router(hashHistory, routerConfig)
-    router.changeHandler((path: string, result: any) => {
+    const router = new SPARouter(hashHistory, routerConfig)
+    router.changeHandler((result: any,location:Location) => {
       expect(result).toBe("dashboard")
       done()
     })
@@ -65,8 +66,8 @@ describe('universal router 构造', () => {
     router.push("/dashboard")
   })
   it("dynamic add routes with param", (done) => {
-    const router = new Router(hashHistory, routerConfig)
-    router.changeHandler((path: string, result: RouteResult<any>) => {
+    const router = new SPARouter(hashHistory, routerConfig)
+    router.changeHandler((result: any,location:Location) => {
       expect(result).toBe("users is :abc")
       done()
     })
@@ -106,8 +107,8 @@ describe.skip('router nested', () => {
     ]
   }
   it('router nested', (done) => {
-    const router = new Router(hashHistory, routerConfig)
-    router.changeHandler((path: string, result: RouteResult<any>) => {
+    const router = new SPARouter(hashHistory, routerConfig)
+    router.changeHandler((result: any,location:Location) => {
       expect(result).toEqual(["app->", "dashboard"])
       done()
     })
@@ -145,16 +146,16 @@ describe('preAction', () => {
     component:(context:RouterContext) => "profile"
   }]
   it('preAction is undefined', (done) => {
-    const router = new Router(hashHistory, routerConfig)
-    router.changeHandler((path: string, result: RouteResult<any>) => {
+    const router = new SPARouter(hashHistory, routerConfig)
+    router.changeHandler((result: any,location:Location) => {
       expect(result).toEqual("profile")
       done()
     })
     router.push(router.formateRouter("profile"))
   })
   it("preAction have preAction true app ", (done) => {
-    const router = new Router(hashHistory, routerConfig)
-    router.changeHandler((path: string, result: RouteResult<any>) => {
+    const router = new SPARouter(hashHistory, routerConfig)
+    router.changeHandler((result: any,location:Location) => {
       expect(result).toEqual("app")
       done()
     })
@@ -163,8 +164,8 @@ describe('preAction', () => {
 
 
   it("preAction have preAction false dashboard ", (done) => {
-    const router = new Router(hashHistory, routerConfig)
-    router.changeHandler((path: string, result: RouteResult<any>) => {
+    const router = new SPARouter(hashHistory, routerConfig)
+    router.changeHandler((result: any,location:Location) => {
     
     }).catch((error:Error)=>{
       expect(error.message).toEqual("Route not found")
