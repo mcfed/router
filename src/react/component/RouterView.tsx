@@ -13,7 +13,7 @@ export function RouterView(props:IRouterViewProps){
   // const context= useContext(SPAProviderContext)
   const [aaa] = useState(0)
   // const [component,setComponent] = useState(0)
-  // props?.spaRouter?.changeHandler((path: string, result: RouteResult<any>) => {
+  // props?.spaRouter?.subscribe((path: string, result: RouteResult<any>) => {
   //   setComponent(result)
   // })
   return (<div>1111</div>)

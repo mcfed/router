@@ -33,28 +33,16 @@ export  class SPARouter {
    * 初始化路由对象
    */
   private initRouter() {
-    // const nested=async function(context:RouterContext,params:any){
-    //   return [context.route.component(context,params),await context.next()]
-    // }
     const universalConfig={
       resolveRoute(context:RouterContext, params:RouteParams) {
-        // console.log(context.route.match)
-        // if (context.route.nested) {
-        //    console.log(context.route.path)
-        // //   return nested(context,params)
-        //   context.next().then((result:any)=>console.log(result))
-        // }
-        // console.log(context.route?.preAction())
-        console.log("route",context,params) 
-       
         if ((context.route?.preAction && context.route?.preAction(context,params) || context.route?.preAction ===undefined) && typeof context.route.component === 'function') {
           return context.route.component(context, params)
         }
         return undefined
       }
     }
-    // console.log({...this.unConfig,...universalConfig}) 
     this.router = new UniversalRouter(this.routerConfig, {...this.unConfig,...universalConfig})
+    // this.history.push("/")
   }
   /**
    * @deprecated
@@ -81,7 +69,7 @@ export  class SPARouter {
    * 历史监听方法
    * @param fn 监听回调方式
    */
-  public changeHandler(fn: (result:RouteResult<any>,location:Location)=>any) {
+  public subscribe(fn: (result:RouteResult<any>,location:Location)=>any) {
     const self = this
 
     return new Promise((resolve,reject)=>{

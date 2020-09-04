@@ -27,7 +27,7 @@ describe('universal router 构造', () => {
   }
   it('universal router', (done) => {
     const router = new SPARouter(hashHistory, routerConfig)
-    router.changeHandler(( result: any,location:Location) => {
+    router.subscribe(( result: any,location:Location) => {
       expect(result).toBe("app")
       // console.log(location)
       done()
@@ -37,7 +37,7 @@ describe('universal router 构造', () => {
 
   it('router with param', (done) => {
     const router = new SPARouter(hashHistory, routerConfig)
-    router.changeHandler((result: any,location:Location) => {
+    router.subscribe((result: any,location:Location) => {
       expect(result).toBe("abc")
       done()
     })
@@ -46,7 +46,7 @@ describe('universal router 构造', () => {
 
   it("dynamic add routes", (done) => {
     const router = new SPARouter(hashHistory, routerConfig)
-    router.changeHandler((result: any,location:Location) => {
+    router.subscribe((result: any,location:Location) => {
       expect(result).toBe("dashboard")
       done()
     })
@@ -67,7 +67,7 @@ describe('universal router 构造', () => {
   })
   it("dynamic add routes with param", (done) => {
     const router = new SPARouter(hashHistory, routerConfig)
-    router.changeHandler((result: any,location:Location) => {
+    router.subscribe((result: any,location:Location) => {
       expect(result).toBe("users is :abc")
       done()
     })
@@ -108,7 +108,7 @@ describe.skip('router nested', () => {
   }
   it('router nested', (done) => {
     const router = new SPARouter(hashHistory, routerConfig)
-    router.changeHandler((result: any,location:Location) => {
+    router.subscribe((result: any,location:Location) => {
       expect(result).toEqual(["app->", "dashboard"])
       done()
     })
@@ -147,7 +147,7 @@ describe('preAction', () => {
   }]
   it('preAction is undefined', (done) => {
     const router = new SPARouter(hashHistory, routerConfig)
-    router.changeHandler((result: any,location:Location) => {
+    router.subscribe((result: any,location:Location) => {
       expect(result).toEqual("profile")
       done()
     })
@@ -155,7 +155,7 @@ describe('preAction', () => {
   })
   it("preAction have preAction true app ", (done) => {
     const router = new SPARouter(hashHistory, routerConfig)
-    router.changeHandler((result: any,location:Location) => {
+    router.subscribe((result: any,location:Location) => {
       expect(result).toEqual("app")
       done()
     })
@@ -165,7 +165,7 @@ describe('preAction', () => {
 
   it("preAction have preAction false dashboard ", (done) => {
     const router = new SPARouter(hashHistory, routerConfig)
-    router.changeHandler((result: any,location:Location) => {
+    router.subscribe((result: any,location:Location) => {
     
     }).catch((error:Error)=>{
       expect(error.message).toEqual("Route not found")
