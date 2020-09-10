@@ -5,12 +5,15 @@ export const RouterProvider = React.createContext({} as any);
 
 interface RouteProps {
   router: any;
+  children:React.ReactNode;
 }
 
 export function ReactRouter(props: RouteProps) {
   return (
     <RouterProvider.Provider value={{ router: props.router }}>
-      <ReactRoute></ReactRoute>
+      {
+        props.children
+      }
     </RouterProvider.Provider>
   );
 }
