@@ -4,7 +4,7 @@ import { RouterProvider } from "./Provider";
 
 export function ReactRoute() {
   const [routerComp, setRouterComp] = useState();
-  const router = useContext(RouterProvider);
+  const {router} = useContext(RouterProvider);
 
   function compileComponent(component: any) {
     if (!component) {
